@@ -50,6 +50,7 @@ public class SnotesPanel extends JPanel implements ChangeListener {
      * Resets the layout of this panel and all of its contents.
      */
     public void resetLayout() {
+        LookAndFeelManager.removeChangeListener(this);
         LookAndFeelManager.addChangeListener(this);
     }
 

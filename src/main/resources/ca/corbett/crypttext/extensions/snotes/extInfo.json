@@ -1,0 +1,12 @@
+{
+  "name": "Snotes",
+  "author": "steve@corbett.ca",
+  "version": "1.0.0",
+  "targetAppName": "CryptText",
+  "targetAppVersion": "1.2",
+  "shortDescription": "Brings Snotes functionality into CryptText as an extension.",
+  "longDescription": "Snotes is a note-taking application that can organize, manage, and search through all saved notes. This extension is a port of an older application by the same name.",
+  "customFields": {
+    "Keyboard shortcut": "Default: F8 - change in application settings."
+  }
+}

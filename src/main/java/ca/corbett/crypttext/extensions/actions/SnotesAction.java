@@ -1,5 +1,6 @@
 package ca.corbett.crypttext.extensions.actions;
 
+import ca.corbett.crypttext.extensions.SnotesExtension;
 import ca.corbett.extras.EnhancedAction;
 
 import java.awt.event.ActionEvent;
@@ -11,13 +12,15 @@ import java.awt.event.ActionEvent;
  */
 public class SnotesAction extends EnhancedAction {
 
-    public SnotesAction() {
-        super("Show/hide Snotes panel");
+    private final SnotesExtension snotesExtension;
+
+    public SnotesAction(SnotesExtension owner) {
+        super("Show Snotes panel");
+        this.snotesExtension = owner;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO
-        System.out.println("Here is where I would show the Snotes panel... IF I HAD ONE!");
+        snotesExtension.togglePanelVisibility();
     }
 }

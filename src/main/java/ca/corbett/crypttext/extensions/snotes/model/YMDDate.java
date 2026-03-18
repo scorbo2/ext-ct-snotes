@@ -41,6 +41,7 @@ public class YMDDate implements Comparable<YMDDate> {
      * If the String is badly formatted, a warning is logged, and today's date will be used instead.
      */
     public YMDDate(String ymdString) {
+        LocalDate date;
         try {
             date = ymdString == null ? LocalDate.now() : LocalDate.parse(ymdString, FORMATTER);
         }
@@ -48,6 +49,7 @@ public class YMDDate implements Comparable<YMDDate> {
             log.warning("Invalid date string '" + ymdString + "': " + e.getMessage() + ". Using today's date instead.");
             date = LocalDate.now();
         }
+        this.date = date;
     }
 
     /**

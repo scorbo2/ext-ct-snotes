@@ -65,6 +65,7 @@ public class SnotesIO {
 
         if (lines.size() < 2) {
             // No content, but that's fine - we'll just return an empty Note.
+            note.markClean();
             return note;
         }
 

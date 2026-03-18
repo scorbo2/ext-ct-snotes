@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -86,11 +87,18 @@ class YMDDateTest {
     @Test
     public void getDayName_withValidDate_shouldReturnCorrectDayName() {
         // GIVEN a YMDDate representing April 21, 1997:
-        YMDDate date = new YMDDate(testDate);
+        Locale previousLocale = Locale.getDefault();
+        try {
+            Locale.setDefault(Locale.ENGLISH);
 
-        // THEN getDayName should return "Monday":
-        // (this test will only work if the default locale is English...)
-        assertEquals("Monday", date.getDayName());
+            YMDDate date = new YMDDate(testDate);
+
+            // THEN getDayName should return "Monday" in the English locale:
+            assertEquals("Monday", date.getDayName());
+        } finally {
+            // Restore the original default locale so other tests are not affected:
+            Locale.setDefault(previousLocale);
+        }
     }
 
     @Test

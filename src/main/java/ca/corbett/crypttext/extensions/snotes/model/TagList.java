@@ -149,7 +149,7 @@ public final class TagList {
         if (tag instanceof DateTag dateTagToRemove) {
             if (dateTagToRemove.equals(dateTag)) {
                 dateTag = null;
-                return false;
+                return true;
             }
             else {
                 log.warning("Attempted to remove a DateTag that is not present in this TagList. No action taken.");

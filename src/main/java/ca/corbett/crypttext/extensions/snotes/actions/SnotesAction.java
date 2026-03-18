@@ -1,6 +1,6 @@
-package ca.corbett.crypttext.extensions.actions;
+package ca.corbett.crypttext.extensions.snotes.actions;
 
-import ca.corbett.crypttext.extensions.SnotesExtension;
+import ca.corbett.crypttext.extensions.snotes.SnotesExtension;
 import ca.corbett.extras.EnhancedAction;
 
 import java.awt.event.ActionEvent;

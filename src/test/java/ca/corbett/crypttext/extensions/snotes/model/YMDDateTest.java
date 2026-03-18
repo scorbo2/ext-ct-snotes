@@ -37,7 +37,7 @@ class YMDDateTest {
         YMDDate date = new YMDDate();
 
         // THEN the date should be set to the current date:
-        assertEquals(today, date.date);
+        assertEquals(today.toString(), date.toString());
     }
 
     @Test
@@ -51,7 +51,7 @@ class YMDDateTest {
             YMDDate date = new YMDDate("invalid-date");
 
             // THEN the date should default to today:
-            assertEquals(today, date.date);
+            assertEquals(today.toString(), date.toString());
 
             // AND a warning should have been logged with "invalid date":
             assertTrue(handler.hasWarningContaining("invalid date"));

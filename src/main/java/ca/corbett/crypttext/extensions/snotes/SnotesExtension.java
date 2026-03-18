@@ -1,18 +1,23 @@
-package ca.corbett.crypttext.extensions;
+package ca.corbett.crypttext.extensions.snotes;
 
 import ca.corbett.crypttext.AppConfig;
-import ca.corbett.crypttext.extensions.actions.SnotesAction;
-import ca.corbett.crypttext.extensions.ui.SnotesPanel;
+import ca.corbett.crypttext.Version;
+import ca.corbett.crypttext.extensions.CryptTextExtension;
+import ca.corbett.crypttext.extensions.ExtraComponentPosition;
+import ca.corbett.crypttext.extensions.snotes.actions.SnotesAction;
+import ca.corbett.crypttext.extensions.snotes.ui.SnotesPanel;
 import ca.corbett.crypttext.ui.actions.UIReloadAction;
 import ca.corbett.extensions.AppExtensionInfo;
 import ca.corbett.extras.io.KeyStrokeManager;
 import ca.corbett.extras.properties.AbstractProperty;
 import ca.corbett.extras.properties.BooleanProperty;
+import ca.corbett.extras.properties.DirectoryProperty;
 import ca.corbett.extras.properties.KeyStrokeProperty;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -32,6 +37,7 @@ public class SnotesExtension extends CryptTextExtension {
     private static final String extInfoLocation = "/ca/corbett/crypttext/extensions/snotes/extInfo.json";
     private static final String KEY_PROP = AppConfig.KEYSTROKE_PREFIX + "Snotes.snotesKey";
     private static final String PANEL_PROP = "Snotes.Snotes options.panelVisible";
+    private static final String DIR_PROP = "Snotes.Snotes options.snotesDirectory";
 
     private final AppExtensionInfo extInfo;
     private final SnotesAction snotesAction;
@@ -44,7 +50,7 @@ public class SnotesExtension extends CryptTextExtension {
             throw new RuntimeException("SnotesExtensino: can't parse extInfo.json!");
         }
         this.snotesAction = new SnotesAction(this);
-        this.snotesPanel = new SnotesPanel();
+        this.snotesPanel = new SnotesPanel(this);
         this.panelMenuItem = new JCheckBoxMenuItem(snotesAction);
     }
 
@@ -80,6 +86,14 @@ public class SnotesExtension extends CryptTextExtension {
         list.add(new BooleanProperty(PANEL_PROP,
                                      "Show Snotes panel",
                                      true));
+
+        // The directory where are notes are stored:
+        // (note we offer a lousy default here, but the user will change it right away, so it's okay)
+        list.add(new DirectoryProperty(DIR_PROP,
+                                       "Data directory:",
+                                       true,
+                                       Version.SETTINGS_DIR)
+                         .setHelpText("The directory where your notes are stored."));
 
         return list;
     }
@@ -127,6 +141,18 @@ public class SnotesExtension extends CryptTextExtension {
         AppConfig.getInstance().save(); // Trigger an immediate save so the value is persisted
         panelMenuItem.setState(isVisibleNow);
         UIReloadAction.getInstance().actionPerformed(null); // Trigger immediate UI reload
+    }
+
+    /**
+     * Returns our currently configured data directory, or null if one isn't set.
+     */
+    public File getConfiguredDataDirectory() {
+        AbstractProperty prop = AppConfig.getInstance().getPropertiesManager().getProperty(DIR_PROP);
+        if (!(prop instanceof DirectoryProperty dirProp)) {
+            log.severe("SnotesExtension: unable to find data directory property!");
+            return null;
+        }
+        return dirProp.getDirectory();
     }
 
     /**

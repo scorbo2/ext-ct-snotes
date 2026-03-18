@@ -1,8 +1,15 @@
-package ca.corbett.crypttext.extensions.ui;
+package ca.corbett.crypttext.extensions.snotes.ui;
 
+import ca.corbett.crypttext.extensions.snotes.SnotesExtension;
+import ca.corbett.crypttext.extensions.snotes.threads.SnotesLoaderThread;
+import ca.corbett.crypttext.ui.MainWindow;
 import ca.corbett.extras.LookAndFeelManager;
+import ca.corbett.extras.progress.MultiProgressDialog;
+import ca.corbett.extras.progress.SimpleProgressAdapter;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
@@ -31,11 +38,16 @@ import java.awt.Dimension;
 public class SnotesPanel extends JPanel implements ChangeListener {
 
     private static final int PANEL_WIDTH = 210; // maybe make this configurable
+    private final SnotesExtension extension;
 
-    public SnotesPanel() {
+    public SnotesPanel(SnotesExtension owner) {
         setMinimumSize(new Dimension(PANEL_WIDTH, 1));
         setPreferredSize(new Dimension(PANEL_WIDTH, 1));
+        this.extension = owner;
         add(new JLabel("TODO")); // just getting the panel into place for now...
+        JButton tempButton = new JButton("Load all");
+        tempButton.addActionListener(e -> testLoad());
+        add(tempButton);
     }
 
     /**
@@ -61,5 +73,40 @@ public class SnotesPanel extends JPanel implements ChangeListener {
     @Override
     public void stateChanged(ChangeEvent e) {
         SwingUtilities.updateComponentTreeUI(this);
+    }
+
+    /**
+     * This is temporary code until we get a proper UI built for this extension.
+     * Right now I just want to test our loader thread and see if we can load content.
+     */
+    private void testLoad() {
+        SnotesLoaderThread loaderThread = new SnotesLoaderThread(extension.getConfiguredDataDirectory());
+        loaderThread.addProgressListener(new TempListener(loaderThread));
+        MultiProgressDialog dialog = new MultiProgressDialog(MainWindow.getInstance(), "Loading...");
+        dialog.runWorker(loaderThread, true);
+    }
+
+    /**
+     * This will be removed once our UI is in place. Just for testing the model and IO code.
+     */
+    private class TempListener extends SimpleProgressAdapter {
+        private final SnotesLoaderThread thread;
+
+        public TempListener(SnotesLoaderThread thread) {
+            this.thread = thread;
+        }
+
+        @Override
+        public void progressComplete() {
+            JOptionPane.showMessageDialog(MainWindow.getInstance(), "Load complete! Loaded "
+                    + thread.getSearchResults().size() + " notes.");
+        }
+
+        @Override
+        public void progressCanceled() {
+            JOptionPane.showMessageDialog(MainWindow.getInstance(), "Oh no! Load was canceled. I got "
+                    + thread.getSearchResults().size() + " notes before I was interrupted.");
+
+        }
     }
 }

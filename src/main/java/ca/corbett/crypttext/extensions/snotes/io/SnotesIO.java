@@ -48,18 +48,23 @@ public class SnotesIO {
 
         else {
             // Split the tags and load each one:
-            String[] tags = tagLine.replaceAll("#", "").split(" ");
-            int tagIndex = 0;
-            if (YMDDate.isValidYMD(tags[0])) { // If there's a date tag, it'll be the first one
-                tagIndex = 1;
-                note.setDate(new YMDDate(tags[0]));
-            }
-            for (int i = tagIndex; i < tags.length; i++) {
-                if (YMDDate.isValidYMD(tags[i])) {
-                    // This makes no sense and is certainly an error:
-                    throw new IOException("Multiple date tags found in Note " + file.getAbsolutePath());
+            String cleanedTagLine = tagLine.replaceAll("#", "").trim();
+            if (!cleanedTagLine.isEmpty()) {
+                String[] tags = cleanedTagLine.split("\\s+");
+                int tagIndex = 0;
+                if (tags.length > 0 && YMDDate.isValidYMD(tags[0])) { // If there's a date tag, it'll be the first one
+                    tagIndex = 1;
+                    note.setDate(new YMDDate(tags[0]));
                 }
-                note.tag(tags[i]);
+                for (int i = tagIndex; i < tags.length; i++) {
+                    if (YMDDate.isValidYMD(tags[i])) {
+                        // This makes no sense and is certainly an error:
+                        throw new IOException("Multiple date tags found in Note " + file.getAbsolutePath());
+                    }
+                    note.tag(tags[i]);
+                }
+            } else {
+                log.warning("Note " + file.getAbsolutePath() + " has no parsable tags.");
             }
         }
 

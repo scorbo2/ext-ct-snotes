@@ -27,7 +27,7 @@ public class YMDDate implements Comparable<YMDDate> {
     protected static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("uuuu-MM-dd")
                                                                           .withResolverStyle(ResolverStyle.STRICT);
     private static final Logger log = Logger.getLogger(YMDDate.class.getName());
-    protected LocalDate date;
+    protected final LocalDate date;
 
     /**
      * Constructs a YMDDate representing today's date.

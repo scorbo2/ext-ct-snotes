@@ -43,7 +43,7 @@ public final class DateTag extends Tag {
      * Returns a copy of the YMDDate object that this tag represents.
      */
     public YMDDate getDate() {
-        return dateTag;
+        return new YMDDate(dateTag.toString());
     }
 
     @Override

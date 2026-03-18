@@ -38,7 +38,7 @@ class TagListTest {
         assertTrue(tagList.hasDate());
 
         // AND the date should match today's date:
-        assertEquals(today, tagList.getDateTag().dateTag.date);
+        assertEquals(today.toString(), tagList.getDateTag().getDate().toString());
     }
 
     @Test

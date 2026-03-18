@@ -91,7 +91,7 @@ public final class Note {
      * Does not automatically add a newline - use newline() or embed
      * newline characters in newText.
      *
-     * @param newText The text to append to this Nte.
+     * @param newText The text to append to this Note.
      */
     public void append(String newText) {
         text += newText;

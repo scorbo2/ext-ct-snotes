@@ -1,6 +1,7 @@
 package ca.corbett.crypttext.extensions.snotes.model;
 
 import org.junit.jupiter.api.Test;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -55,18 +56,24 @@ class NoteTest {
 
     @Test
     public void getHumanTagLine_withDateAndTags_shouldReturnCorrectFormat() {
-        // GIVEN a Note with a date tag and some non-date tags:
-        Note note = new Note();
-        note.setDate(new YMDDate("1997-04-21"));
-        note.tag("tag1");
-        note.tag("tag2");
+        Locale originalLocale = Locale.getDefault();
+        try {
+            Locale.setDefault(Locale.ENGLISH);
+            // GIVEN a Note with a date tag and some non-date tags:
+            Note note = new Note();
+            note.setDate(new YMDDate("1997-04-21"));
+            note.tag("tag1");
+            note.tag("tag2");
 
-        // WHEN we get the human-readable tag line:
-        String tagLine = note.getHumanTagLine();
+            // WHEN we get the human-readable tag line:
+            String tagLine = note.getHumanTagLine();
 
-        // THEN it should be in the correct format:
-        // (this test will only work if the locale is English...)
-        assertEquals("#1997-04-21 (Monday) #tag1 #tag2" + System.lineSeparator(), tagLine);
+            // THEN it should be in the correct format:
+            // (this test will only work if the locale is English...)
+            assertEquals("#1997-04-21 (Monday) #tag1 #tag2" + System.lineSeparator(), tagLine);
+        } finally {
+            Locale.setDefault(originalLocale);
+        }
     }
 
     @Test

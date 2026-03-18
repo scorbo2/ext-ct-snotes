@@ -47,7 +47,7 @@ public class SnotesExtension extends CryptTextExtension {
     public SnotesExtension() {
         extInfo = AppExtensionInfo.fromExtensionJar(getClass(), extInfoLocation);
         if (extInfo == null) {
-            throw new RuntimeException("SnotesExtensino: can't parse extInfo.json!");
+            throw new RuntimeException("SnotesExtension: can't parse extInfo.json!");
         }
         this.snotesAction = new SnotesAction(this);
         this.snotesPanel = new SnotesPanel(this);

@@ -72,7 +72,7 @@ public class SnotesLoaderThread extends SimpleProgressWorker {
      * </p>
      */
     public List<Note> getSearchResults() {
-        return searchResults;
+        return new ArrayList<>(searchResults); // return a copy in case we are re-run and clear our list
     }
 
     @Override

@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class DateFilterTest extends FilterTest {
 
     @Test
-    public void constructor_willNullInput_shouldThrow() {
+    public void constructor_withNullInput_shouldThrow() {
         // WHEN we give garbage to the constructor, THEN it should immediately throw:
         assertThrows(IllegalArgumentException.class, () -> new DateFilter(null, DateFilter.FilterType.ON));
         assertThrows(IllegalArgumentException.class, () -> new DateFilter(SPECIAL_DATE, null));

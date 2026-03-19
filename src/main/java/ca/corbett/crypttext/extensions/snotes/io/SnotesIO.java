@@ -102,6 +102,21 @@ public class SnotesIO {
             throw new IllegalArgumentException("Cannot save a Note with no source file.");
         }
 
+        // TODO this is wrong!
+        //      Dated notes require special handling, as they automatically go into folders
+        //      based on the date, like 2021/01/09/note.txt
+        //      If it's a first-time save, we have to compute that path.
+        //      If it's an existing note, we have to check to see if the location is still good, and update it if not.
+        //      Undated notes typically go into a "static" or "undated" folder, but we are not yet
+        //      exposing that config property.
+        //      All Notes, dated or not, get an automatic filename based on their tag list.
+        //      Need to circle back to this in a future ticket! We're not handling any of it right now!
+        //      And don't forget the "append if existing" option from the original application!
+        //      e.g. create a new dated note with a tag of "tag" and save it when one already exists for that date...
+        //           user should be prompted to append to or overwrite the existing note, and the code should be
+        //           smart enough to do the right thing.
+        //      The code for all of the above exists in the old Mercurial repo. Dig it up and reuse it!
+
         List<String> lines = new ArrayList<>();
         lines.add(note.getPersistenceTagLine());
         lines.add(""); // blank line between tags and text is conventional.

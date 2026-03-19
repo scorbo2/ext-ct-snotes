@@ -70,20 +70,24 @@ public final class Note {
      * Passing null will convert this Note to an undated one.
      *
      * @param date The new YMDDate for this Note, or null for no date.
+     * @return This Note, for chaining.
      */
-    public void setDate(YMDDate date) {
+    public Note setDate(YMDDate date) {
         tagList.setDate(date);
         isDirty = true;
+        return this;
     }
 
     /**
      * Replaces any existing text for this Note with the given text.
      *
      * @param newText The new text value for this Note.
+     * @return This Note, for chaining.
      */
-    public void setText(String newText) {
+    public Note setText(String newText) {
         text = newText == null ? "" : newText;
         isDirty = true;
+        return this;
     }
 
     /**
@@ -92,18 +96,23 @@ public final class Note {
      * newline characters in newText.
      *
      * @param newText The text to append to this Note.
+     * @return This Note, for chaining.
      */
-    public void append(String newText) {
+    public Note append(String newText) {
         text += newText;
         isDirty = true;
+        return this;
     }
 
     /**
      * Appends a System-specific newline character to this Note.
+     *
+     * @return This Note, for chaining.
      */
-    public void newline() {
+    public Note newline() {
         text += System.lineSeparator();
         isDirty = true;
+        return this;
     }
 
     /**
@@ -163,42 +172,50 @@ public final class Note {
      * If the given Tag is a DateTag, this is equivalent to calling setDate()
      *
      * @param tag The Tag to add.
+     * @return This Note, for chaining.
      */
-    public void tag(Tag tag) {
+    public Note tag(Tag tag) {
         tagList.addTag(tag);
         isDirty = true;
+        return this;
     }
 
     /**
      * Adds the specified tag value to this Note, if not already present. Duplicate tags are ignored.
      *
      * @param tag The tag value to add.
+     * @return This Note, for chaining.
      */
-    public void tag(String tag) {
+    public Note tag(String tag) {
         tagList.addTag(tag);
         isDirty = true;
+        return this;
     }
 
     /**
      * Removes the given tag from this Note, if present.
      *
      * @param tag The tag to remove.
+     * @return This Note, for chaining.
      */
-    public void untag(String tag) {
+    public Note untag(String tag) {
         if (tagList.removeTag(tag)) {
             isDirty = true;
         }
+        return this;
     }
 
     /**
      * Removes the given tag from this Note, if present.
      *
      * @param tag The tag to remove.
+     * @return This Note, for chaining.
      */
-    public void untag(Tag tag) {
+    public Note untag(Tag tag) {
         if (tagList.removeTag(tag)) {
             isDirty = true;
         }
+        return this;
     }
 
     /**

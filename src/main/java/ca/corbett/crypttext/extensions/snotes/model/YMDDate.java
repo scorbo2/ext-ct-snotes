@@ -1,9 +1,11 @@
 package ca.corbett.crypttext.extensions.snotes.model;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
 import java.time.format.TextStyle;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 /**
@@ -81,9 +83,21 @@ public class YMDDate implements Comparable<YMDDate> {
      * This value is NOT used for tagging purposes, but can be used when displaying
      * a dated Note to the user.
      * </p>
+     * <p>
+     * Strongly suggest to use getDayOfWeek() instead, as it is not affected by locale.
+     * </p>
      */
     public String getDayName() {
         return date.getDayOfWeek().getDisplayName(TextStyle.FULL, java.util.Locale.getDefault());
+    }
+
+    /**
+     * Returns the DayOfWeek enum value for this date. This is not affected by locale.
+     *
+     * @return The DayOfWeek enum value for this date.
+     */
+    public DayOfWeek getDayOfWeek() {
+        return date.getDayOfWeek();
     }
 
     /**
@@ -108,11 +122,66 @@ public class YMDDate implements Comparable<YMDDate> {
     }
 
     /**
+     * Returns the year as an int.
+     */
+    public int getYear() {
+        return date.getYear();
+    }
+
+    /**
+     * Returns the 1-based month as an int.
+     * Note that this is 1-based! January would be returned as "1", not "0".
+     */
+    public int getMonth() {
+        return date.getMonthValue();
+    }
+
+    /**
+     * Returns the 1-based day of month as an int.
+     * Note that this is 1-based! The first day of the month would be returns as "1", not "0".
+     */
+    public int getDayOfMonth() {
+        return date.getDayOfMonth();
+    }
+
+    /**
      * Returns a yyyy-MM-dd formatted String representation of this date.
      */
     @Override
     public String toString() {
         return date.format(FORMATTER);
+    }
+
+    /**
+     * Returns true if this YMDDate is before the given YMDDate, false otherwise.
+     */
+    public boolean isBefore(YMDDate other) {
+        if (other == null) {
+            // Aligns with compareTo: this is not considered "before" a null date.
+            return false;
+        }
+        return this.date.isBefore(other.date);
+    }
+
+    /**
+     * Returns true if this YMDDate is after the given YMDDate, false otherwise.
+     */
+    public boolean isAfter(YMDDate other) {
+        if (other == null) {
+            // Aligns with compareTo: this is considered "after" a null date.
+            return true;
+        }
+        return this.date.isAfter(other.date);
+    }
+
+    /**
+     * Returns true if this YMDDate is the same as the given YMDDate, false otherwise.
+     */
+    public boolean isSameDate(YMDDate other) {
+        if (other == null) {
+            return false;
+        }
+        return this.date.isEqual(other.date);
     }
 
     /**
@@ -137,5 +206,16 @@ public class YMDDate implements Comparable<YMDDate> {
             return 1;
         }
         return this.date.compareTo(o.date);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof YMDDate ymdDate)) { return false; }
+        return Objects.equals(date, ymdDate.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(date);
     }
 }

@@ -27,7 +27,7 @@ public abstract class FilterTest {
     protected static final Note NOTE_WITH_TEXT_TO_FIND = new Note().setText("A note containing the unique text: "
                                                                                     + TEXT_TO_FIND
                                                                                     + " blah blah");
-    protected static final Note NOTE_UNDATED_UNTAGGED = new Note().setText("Un undated and untagged note.");
+    protected static final Note NOTE_UNDATED_UNTAGGED = new Note().setText("An undated and untagged note.");
     protected static final Note NOTE_NO_TEXT = new Note().tag(NON_DATE_TAG1);
     protected static final Note NOTE_DATED_UNTAGGED = new Note().setText("A note with a date tag but no non-date tags.")
                                                                 .setDate(SPECIAL_DATE);

@@ -39,11 +39,19 @@ public class TextFilter extends Filter {
 
     @Override
     public boolean isFiltered(Note note) {
-        if (note == null || note.getText() == null || note.getText().isBlank()) {
-            // Don't bother filtering if there's nothing to filter.
+        // If the filter text is empty, this filter is a documented no-op.
+        if (contains.isEmpty()) {
             return false;
         }
-        String candidateText = note.getText();
+        // A null note or a note with null/blank text cannot contain the target text.
+        if (note == null) {
+            return true;
+        }
+        String noteText = note.getText();
+        if (noteText == null || noteText.isBlank()) {
+            return true;
+        }
+        String candidateText = noteText;
         String toFind = contains;
         if (!isCaseSensitive) {
             candidateText = candidateText.toLowerCase(Locale.ROOT);

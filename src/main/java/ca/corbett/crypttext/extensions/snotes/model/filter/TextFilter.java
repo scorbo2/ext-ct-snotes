@@ -55,7 +55,7 @@ public class TextFilter extends Filter {
         String toFind = contains;
         if (!isCaseSensitive) {
             candidateText = candidateText.toLowerCase(Locale.ROOT);
-            toFind = toFind.toLowerCase();
+            toFind = toFind.toLowerCase(Locale.ROOT);
         }
         return !candidateText.contains(toFind);
     }

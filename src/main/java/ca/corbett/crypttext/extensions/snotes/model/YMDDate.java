@@ -156,6 +156,10 @@ public class YMDDate implements Comparable<YMDDate> {
      * Returns true if this YMDDate is before the given YMDDate, false otherwise.
      */
     public boolean isBefore(YMDDate other) {
+        if (other == null) {
+            // Aligns with compareTo: this is not considered "before" a null date.
+            return false;
+        }
         return this.date.isBefore(other.date);
     }
 
@@ -163,6 +167,10 @@ public class YMDDate implements Comparable<YMDDate> {
      * Returns true if this YMDDate is after the given YMDDate, false otherwise.
      */
     public boolean isAfter(YMDDate other) {
+        if (other == null) {
+            // Aligns with compareTo: this is considered "after" a null date.
+            return true;
+        }
         return this.date.isAfter(other.date);
     }
 
@@ -170,6 +178,9 @@ public class YMDDate implements Comparable<YMDDate> {
      * Returns true if this YMDDate is the same as the given YMDDate, false otherwise.
      */
     public boolean isSameDate(YMDDate other) {
+        if (other == null) {
+            return false;
+        }
         return this.date.isEqual(other.date);
     }
 

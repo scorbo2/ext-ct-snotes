@@ -118,6 +118,9 @@ public class Query {
      * @return A new list of Notes that passed through all the filters in this Query. May be empty, but never null.
      */
     public List<Note> filter(List<Note> notes) {
+        if (notes == null) {
+            return new ArrayList<>();
+        }
         List<Note> filteredNotes = new ArrayList<>();
         for (Note note : notes) {
             boolean isFiltered = false;

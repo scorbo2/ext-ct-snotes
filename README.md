@@ -1,5 +1,10 @@
 # ext-ct-snotes - archived!
 
+An attempt to bring the functionality of the [Snotes application](https://github.com/scorbo2/snotes/)
+into the [CryptText application](https://github.com/scorbo2/crypttext/) as an application extension.
+
+---
+
 This repo is archived and is officially abandoned.
 
 Lessons learned:
